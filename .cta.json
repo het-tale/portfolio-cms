@@ -1,11 +1,11 @@
 {
-  "projectName": ".",
-  "mode": "code-router",
-  "typescript": true,
-  "tailwind": false,
-  "packageManager": "npm",
-  "git": true,
-  "version": 1,
-  "framework": "react-cra",
-  "chosenAddOns": []
+	"projectName": ".",
+	"mode": "code-router",
+	"typescript": true,
+	"tailwind": false,
+	"packageManager": "npm",
+	"git": true,
+	"version": 1,
+	"framework": "react-cra",
+	"chosenAddOns": []
 }
