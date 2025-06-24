@@ -7,18 +7,18 @@ import {
 	createRoute,
 	createRouter
 } from "@tanstack/react-router";
-import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 
 import "./styles.css";
 import reportWebVitals from "./reportWebVitals.ts";
 
 import App from "./App.tsx";
+import Login from "./components/auth/login.tsx";
 
 const rootRoute = createRootRoute({
 	component: () => (
 		<>
 			<Outlet />
-			<TanStackRouterDevtools />
+			{/* <TanStackRouterDevtools /> */}
 		</>
 	)
 });
@@ -29,7 +29,13 @@ const indexRoute = createRoute({
 	component: App
 });
 
-const routeTree = rootRoute.addChildren([indexRoute]);
+const loginRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/login",
+  component: Login
+})
+
+const routeTree = rootRoute.addChildren([indexRoute, loginRoute]);
 
 const router = createRouter({
 	routeTree,
