@@ -1,3 +1,4 @@
+import useLogin from "@/api/hooks/useLogin";
 import { Button } from "@/components/ui/button";
 import {
 	Form,
@@ -13,7 +14,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 const formSchema = z.object({
-	email: z.string().email({
+	username: z.string().email({
 		message: "Enter a valid email address"
 	}),
 	password: z.string().min(8).max(16, {
@@ -25,9 +26,10 @@ const Login = () => {
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema)
 	});
+	const { data, mutate } = useLogin();
 
 	function onSubmit(values: z.infer<typeof formSchema>) {
-		console.log("values", values);
+		mutate(values);
 	}
 	return (
 		<div className="bg-gray-100 min-h-screen h-full flex justify-center">
@@ -44,7 +46,7 @@ const Login = () => {
 					>
 						<FormField
 							control={form.control}
-							name="email"
+							name="username"
 							render={({ field }) => (
 								<FormItem>
 									<FormLabel className="text-gray-600">Email address</FormLabel>

@@ -7,12 +7,14 @@ import {
 	createRoute,
 	createRouter
 } from "@tanstack/react-router";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import "./styles.css";
 import reportWebVitals from "./reportWebVitals.ts";
 
 import App from "./App.tsx";
 import Login from "./components/auth/login.tsx";
+import { Toaster } from "@/components/ui/sonner";
 
 const rootRoute = createRootRoute({
 	component: () => (
@@ -30,10 +32,10 @@ const indexRoute = createRoute({
 });
 
 const loginRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: "/login",
-  component: Login
-})
+	getParentRoute: () => rootRoute,
+	path: "/login",
+	component: Login
+});
 
 const routeTree = rootRoute.addChildren([indexRoute, loginRoute]);
 
@@ -51,13 +53,18 @@ declare module "@tanstack/react-router" {
 		router: typeof router;
 	}
 }
+// create tanstack query client
+const queryClient = new QueryClient();
 
 const rootElement = document.getElementById("app");
 if (rootElement && !rootElement.innerHTML) {
 	const root = ReactDOM.createRoot(rootElement);
 	root.render(
 		<StrictMode>
-			<RouterProvider router={router} />
+			<QueryClientProvider client={queryClient}>
+				<RouterProvider router={router} />
+				<Toaster />
+			</QueryClientProvider>
 		</StrictMode>
 	);
 }
