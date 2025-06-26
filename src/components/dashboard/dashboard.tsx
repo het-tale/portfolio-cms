@@ -3,12 +3,13 @@ import Navbar from "../layout/navbar";
 import Sidebar from "../layout/sidebar";
 import CardStats from "./card-stats";
 import useGetProjects from "@/api/hooks/projects/useGetProjects";
+import useGetSkills from "@/api/hooks/skills/useGetSkills";
+import useGetResume from "@/api/hooks/resume/useGetResume";
 
 export default function Dashboard() {
-	const { data: projects, error, isError } = useGetProjects();
-	console.log("Projects", projects?.length);
-	console.log("Error", error);
-	console.log("IsError", isError);
+	const { data: projects } = useGetProjects();
+	const { data: skills } = useGetSkills();
+	const { data: resume } = useGetResume();
 	const stats = [
 		{
 			title: "Projects",
@@ -29,14 +30,14 @@ export default function Dashboard() {
 		},
 		{
 			title: "Skills",
-			counter: 15,
+			counter: skills?.length,
 			icon: (
 				<Award className="bg-green-500 w-12 h-12 rounded p-2" color="white" />
 			)
 		},
 		{
 			title: "Resume Views",
-			counter: 20,
+			counter: resume?.views_counter,
 			icon: (
 				<StickyNote
 					className="bg-purple-500 w-12 h-12 rounded p-2"
