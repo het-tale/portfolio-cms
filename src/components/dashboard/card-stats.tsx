@@ -1,11 +1,7 @@
 import { Card, CardHeader } from "@/components/ui/card";
 import type { StatsType } from "@/types/stats";
 
-export default function CardStats({
-	title,
-	icon,
-	counter
-}: StatsType) {
+export default function CardStats({ title, icon, counter }: StatsType) {
 	return (
 		<Card className="w-full max-w-sm">
 			<CardHeader className="flex items-center">

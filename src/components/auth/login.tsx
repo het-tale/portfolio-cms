@@ -26,7 +26,7 @@ const Login = () => {
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema)
 	});
-	const { data, mutate } = useLogin();
+	const { mutate } = useLogin();
 
 	function onSubmit(values: z.infer<typeof formSchema>) {
 		mutate(values);

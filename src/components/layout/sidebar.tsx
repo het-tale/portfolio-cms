@@ -77,7 +77,7 @@ export default function Sidebar() {
 				onClick={() => {
 					logout();
 				}}
-                disabled={isPending}
+				disabled={isPending}
 			>
 				<User />
 				<span className="font-semibold text-md">Logout</span>

@@ -2,12 +2,17 @@ import { Award, FileText, FolderDot, Plus, StickyNote } from "lucide-react";
 import Navbar from "../layout/navbar";
 import Sidebar from "../layout/sidebar";
 import CardStats from "./card-stats";
+import useGetProjects from "@/api/hooks/projects/useGetProjects";
 
 export default function Dashboard() {
+	const { data: projects, error, isError } = useGetProjects();
+	console.log("Projects", projects?.length);
+	console.log("Error", error);
+	console.log("IsError", isError);
 	const stats = [
 		{
 			title: "Projects",
-			counter: 12,
+			counter: projects?.length,
 			icon: (
 				<FolderDot
 					className="bg-pink-500 w-12 h-12 rounded p-2"
@@ -53,12 +58,19 @@ export default function Dashboard() {
 		},
 		{
 			title: "Add New Skill",
-			icon: <Plus className="bg-green-200 rounded-full w-8 h-8" color="green" />,
+			icon: (
+				<Plus className="bg-green-200 rounded-full w-8 h-8" color="green" />
+			),
 			href: ""
 		},
 		{
 			title: "Update Resume",
-			icon: <StickyNote className="bg-purple-200 rounded-full w-8 h-8" color="purple" />,
+			icon: (
+				<StickyNote
+					className="bg-purple-200 rounded-full w-8 h-8"
+					color="purple"
+				/>
+			),
 			href: ""
 		}
 	];

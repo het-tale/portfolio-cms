@@ -20,7 +20,7 @@ const useLogout = () => {
 	});
 	return {
 		logout: mutate,
-        isPending
+		isPending
 	};
 };
 
