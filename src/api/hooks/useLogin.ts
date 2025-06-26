@@ -3,8 +3,10 @@ import login from "../services/login";
 import type { AuthData } from "@/types/auth";
 import axios from "axios";
 import { toast } from "sonner";
+import { useNavigate } from "@tanstack/react-router";
 
 const useLogin = () => {
+	const navigate = useNavigate();
 	const queryClient = useQueryClient();
 	const { data, mutate, isError, isPending, error } = useMutation({
 		mutationFn: async (authData: AuthData) => {
@@ -19,7 +21,8 @@ const useLogin = () => {
 		},
 		onSuccess: (data) => {
 			queryClient.invalidateQueries({ queryKey: ["user"] });
-            toast.success(data.message)
+			toast.success(data.message);
+			navigate({ to: "/dashboard" });
 		},
 		onError: (err) => {
 			const message =

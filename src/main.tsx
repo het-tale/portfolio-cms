@@ -1,45 +1,16 @@
 import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
-import {
-	Outlet,
-	RouterProvider,
-	createRootRoute,
-	createRoute,
-	createRouter
-} from "@tanstack/react-router";
+import { createRouter, RouterProvider } from "@tanstack/react-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import "./styles.css";
 import reportWebVitals from "./reportWebVitals.ts";
 
-import App from "./App.tsx";
-import Login from "./components/auth/login.tsx";
 import { Toaster } from "@/components/ui/sonner";
+import { routeTree } from "./routes.tsx";
+// import { router } from "./routes.tsx";
 
-const rootRoute = createRootRoute({
-	component: () => (
-		<>
-			<Outlet />
-			{/* <TanStackRouterDevtools /> */}
-		</>
-	)
-});
-
-const indexRoute = createRoute({
-	getParentRoute: () => rootRoute,
-	path: "/",
-	component: App
-});
-
-const loginRoute = createRoute({
-	getParentRoute: () => rootRoute,
-	path: "/login",
-	component: Login
-});
-
-const routeTree = rootRoute.addChildren([indexRoute, loginRoute]);
-
-const router = createRouter({
+export const router = createRouter({
 	routeTree,
 	context: {},
 	defaultPreload: "intent",
