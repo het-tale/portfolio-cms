@@ -14,8 +14,11 @@ import {
 	StickyNote,
 	User
 } from "lucide-react";
+import useLogout from "@/api/hooks/useLogout";
+import { Button } from "../ui/button";
 
 export default function Sidebar() {
+	const { logout, isPending } = useLogout();
 	const navigation = [
 		{
 			title: "Dashboard",
@@ -69,10 +72,16 @@ export default function Sidebar() {
 					</NavigationMenuList>
 				</NavigationMenu>
 			</div>
-			<div className="flex items-center gap-2">
+			<Button
+				className="flex items-center gap-2 cursor-pointer bg-blue-600"
+				onClick={() => {
+					logout();
+				}}
+                disabled={isPending}
+			>
 				<User />
 				<span className="font-semibold text-md">Logout</span>
-			</div>
+			</Button>
 		</div>
 	);
 }
