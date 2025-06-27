@@ -11,9 +11,9 @@ import {
 	SelectValue
 } from "@/components/ui/select";
 import ProjectPreview from "./project-preview";
-import useGetProjects from "@/api/hooks/projects/useGetProjects";
 import type { ProjectResponse } from "@/types/project";
 import { useEffect, useState } from "react";
+import useDebouncedProjects from "@/hooks/useDebouncedSearch";
 export default function Projects() {
 	const navigate = useNavigate();
 	const action = (
@@ -28,7 +28,7 @@ export default function Projects() {
 		</Button>
 	);
 	const [searchTerm, setSearchTerm] = useState<string | undefined>("");
-	const { data: projects } = useGetProjects(searchTerm);
+	const { data: projects } = useDebouncedProjects(searchTerm);
 	const [filteredData, setFilteredData] = useState<ProjectResponse[]>([]);
 	useEffect(() => {
 		if (projects) {
