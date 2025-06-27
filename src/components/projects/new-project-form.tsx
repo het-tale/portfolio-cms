@@ -55,31 +55,33 @@ export default function NewProjectForm() {
 				onSubmit={form.handleSubmit(onSubmit)}
 				className="space-y-8 max-w-3xl mx-6 py-4"
 			>
-				<div className="grid grid-cols-12 gap-4">
-					<div className="col-span-4">
-						<FormField
-							control={form.control}
-							name="title"
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Project Title</FormLabel>
-									<FormControl>
-										<Input placeholder="project title" type="text" {...field} />
-									</FormControl>
+				<FormField
+					control={form.control}
+					name="title"
+					render={({ field }) => (
+						<FormItem>
+							<div className="flex">
+								<FormLabel>Project Title</FormLabel>
+								<span className="text-red-500">*</span>
+							</div>
+							<FormControl>
+								<Input placeholder="project title" type="text" {...field} />
+							</FormControl>
 
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-					</div>
-				</div>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
 
 				<FormField
 					control={form.control}
 					name="description"
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>Description</FormLabel>
+							<div className="flex">
+								<FormLabel>Description</FormLabel>
+								<span className="text-red-500">*</span>
+							</div>
 							<FormControl>
 								<Textarea
 									placeholder="Tell more about your project"
@@ -98,7 +100,10 @@ export default function NewProjectForm() {
 					name="project_img"
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>Project Image</FormLabel>
+							<div className="flex">
+								<FormLabel>Project Image</FormLabel>
+								<span className="text-red-500">*</span>
+							</div>
 							<FormControl>
 								<Input
 									placeholder="Provide project image"
@@ -117,17 +122,20 @@ export default function NewProjectForm() {
 					name="project_status"
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>Status</FormLabel>
+							<div className="flex">
+								<FormLabel>Status</FormLabel>
+								<span className="text-red-500">*</span>
+							</div>
 							<Select onValueChange={field.onChange} defaultValue={field.value}>
-								<FormControl>
+								<FormControl className="w-full">
 									<SelectTrigger>
 										<SelectValue placeholder="Select your project status" />
 									</SelectTrigger>
 								</FormControl>
 								<SelectContent>
-									<SelectItem value="m@example.com">m@example.com</SelectItem>
-									<SelectItem value="m@google.com">m@google.com</SelectItem>
-									<SelectItem value="m@support.com">m@support.com</SelectItem>
+									<SelectItem value="planning">planning</SelectItem>
+									<SelectItem value="in progress">in progress</SelectItem>
+									<SelectItem value="completed">completed</SelectItem>
 								</SelectContent>
 							</Select>
 
@@ -141,7 +149,11 @@ export default function NewProjectForm() {
 					name="github_link"
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>Github Link</FormLabel>
+							<div className="flex">
+								<FormLabel>Github Link</FormLabel>
+								<span className="text-red-500">*</span>
+							</div>
+
 							<FormControl>
 								<Input
 									placeholder="link to project repository"
@@ -160,7 +172,10 @@ export default function NewProjectForm() {
 					name="website_link"
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>Website Link</FormLabel>
+							<div className="flex">
+								<FormLabel>Website Link</FormLabel>
+								<span className="text-red-500">*</span>
+							</div>
 							<FormControl>
 								<Input placeholder="project website" type="text" {...field} />
 							</FormControl>
