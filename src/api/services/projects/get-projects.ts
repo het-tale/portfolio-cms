@@ -1,9 +1,11 @@
 import { toast } from "sonner";
 import client from "../../axios";
 
-const GetProjects = async () => {
+const GetProjects = async (search?: string) => {
 	try {
-		const projects = await client.get("/projects/get_all_projects");
+		const projects = await client.get(
+			`/projects/get_all_projects?search=${search}`
+		);
 		return projects.data;
 	} catch (err) {
 		const message =

@@ -27,9 +27,9 @@ export default function Projects() {
 			<span>New Project</span>
 		</Button>
 	);
-	const { data: projects } = useGetProjects();
+	const [searchTerm, setSearchTerm] = useState<string | undefined>("");
+	const { data: projects } = useGetProjects(searchTerm);
 	const [filteredData, setFilteredData] = useState<ProjectResponse[]>([]);
-
 	useEffect(() => {
 		if (projects) {
 			setFilteredData(projects);
@@ -41,11 +41,13 @@ export default function Projects() {
 		const result = projects.filter((project) => project.status === status);
 		setFilteredData(result);
 	};
+	console.log("Search", searchTerm);
 	return (
 		<Layout
 			children={
 				<div className="flex flex-col">
 					<SearchFilter
+						setSearchTerm={setSearchTerm}
 						toBeSearched="projects"
 						filter={
 							<Select onValueChange={handleStatusChange}>

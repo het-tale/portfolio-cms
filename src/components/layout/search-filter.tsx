@@ -1,12 +1,14 @@
 import { Search } from "lucide-react";
 import { Input } from "../ui/input";
-import type { ReactElement } from "react";
+import { type ReactElement } from "react";
 export default function SearchFilter({
 	toBeSearched,
-	filter
+	filter,
+	setSearchTerm
 }: {
 	toBeSearched: string;
 	filter: ReactElement;
+	setSearchTerm: React.Dispatch<React.SetStateAction<string | undefined>>;
 }) {
 	return (
 		<div className="flex w-full gap-4 p-8">
@@ -16,6 +18,7 @@ export default function SearchFilter({
 					type="search"
 					placeholder={`Search ${toBeSearched}...`}
 					className="border-none focus-visible:ring-0 focus-visible:border-none outline-none focus-visible:outline-none"
+					onChange={(e) => setSearchTerm(e.target.value)}
 				/>
 			</div>
 			{filter}
