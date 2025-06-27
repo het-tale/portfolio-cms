@@ -1,8 +1,9 @@
+import { forwardRef, useImperativeHandle } from "react";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Button } from "@/components/ui/button";
+
 import {
 	Form,
 	FormControl,
@@ -22,39 +23,46 @@ import {
 } from "@/components/ui/select";
 
 const formSchema = z.object({
-	title: z.string().min(1),
+	title: z.string().min(1, "Title is required"),
 	description: z.string(),
-	project_img: z.string().min(1),
+	project_img: z.string().min(1, "Image is required"),
 	project_status: z.string(),
 	github_link: z.string().min(1),
 	website_link: z.string().min(1)
 });
 
-export default function NewProjectForm() {
-	const form = useForm<z.infer<typeof formSchema>>({
+export type NewProjectFormValues = z.infer<typeof formSchema>;
+
+export interface NewProjectFormRef {
+	submitForm: () => void;
+}
+
+const NewProjectForm = forwardRef<
+	NewProjectFormRef,
+	{ onSubmit: (data: NewProjectFormValues) => void }
+>(({ onSubmit }, ref) => {
+	const form = useForm<NewProjectFormValues>({
 		resolver: zodResolver(formSchema)
 	});
 
-	function onSubmit(values: z.infer<typeof formSchema>) {
+	useImperativeHandle(ref, () => ({
+		submitForm: () => {
+			form.handleSubmit(handleInternalSubmit)();
+		}
+	}));
+
+	const handleInternalSubmit = (values: NewProjectFormValues) => {
 		try {
-			console.log(values);
-			toast(
-				<pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-					<code className="text-white">{JSON.stringify(values, null, 2)}</code>
-				</pre>
-			);
+			onSubmit(values);
+			toast.message("Data submitted");
 		} catch (error) {
-			console.error("Form submission error", error);
 			toast.error("Failed to submit the form. Please try again.");
 		}
-	}
+	};
 
 	return (
 		<Form {...form}>
-			<form
-				onSubmit={form.handleSubmit(onSubmit)}
-				className="space-y-8 max-w-3xl mx-6 py-4"
-			>
+			<form className="space-y-8 max-w-3xl mx-6 py-4">
 				<FormField
 					control={form.control}
 					name="title"
@@ -67,7 +75,6 @@ export default function NewProjectForm() {
 							<FormControl>
 								<Input placeholder="project title" type="text" {...field} />
 							</FormControl>
-
 							<FormMessage />
 						</FormItem>
 					)}
@@ -89,7 +96,6 @@ export default function NewProjectForm() {
 									{...field}
 								/>
 							</FormControl>
-
 							<FormMessage />
 						</FormItem>
 					)}
@@ -111,7 +117,6 @@ export default function NewProjectForm() {
 									{...field}
 								/>
 							</FormControl>
-
 							<FormMessage />
 						</FormItem>
 					)}
@@ -133,12 +138,11 @@ export default function NewProjectForm() {
 									</SelectTrigger>
 								</FormControl>
 								<SelectContent>
-									<SelectItem value="planning">planning</SelectItem>
-									<SelectItem value="in progress">in progress</SelectItem>
-									<SelectItem value="completed">completed</SelectItem>
+									<SelectItem value="planning">Planning</SelectItem>
+									<SelectItem value="in progress">In Progress</SelectItem>
+									<SelectItem value="completed">Completed</SelectItem>
 								</SelectContent>
 							</Select>
-
 							<FormMessage />
 						</FormItem>
 					)}
@@ -153,7 +157,6 @@ export default function NewProjectForm() {
 								<FormLabel>Github Link</FormLabel>
 								<span className="text-red-500">*</span>
 							</div>
-
 							<FormControl>
 								<Input
 									placeholder="link to project repository"
@@ -161,7 +164,6 @@ export default function NewProjectForm() {
 									{...field}
 								/>
 							</FormControl>
-
 							<FormMessage />
 						</FormItem>
 					)}
@@ -179,13 +181,13 @@ export default function NewProjectForm() {
 							<FormControl>
 								<Input placeholder="project website" type="text" {...field} />
 							</FormControl>
-
 							<FormMessage />
 						</FormItem>
 					)}
 				/>
-				<Button type="submit">Submit</Button>
 			</form>
 		</Form>
 	);
-}
+});
+
+export default NewProjectForm;

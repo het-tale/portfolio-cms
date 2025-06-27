@@ -2,9 +2,23 @@ import { Save, X } from "lucide-react";
 import Layout from "../layout/layout";
 import { Button } from "../ui/button";
 import { useNavigate } from "@tanstack/react-router";
-import NewProjectForm from "./new-project-form";
+import NewProjectForm, {
+	type NewProjectFormRef,
+	type NewProjectFormValues
+} from "./new-project-form";
+import { useRef } from "react";
 
 export default function NewProject() {
+	const formRef = useRef<NewProjectFormRef>(null);
+
+	const handleSaveClick = () => {
+		formRef.current?.submitForm();
+	};
+
+	const handleSubmit = (data: NewProjectFormValues) => {
+		console.log("Form submitted:", data);
+		// To Do: Add mutation or API call here
+	};
 	const navigate = useNavigate();
 	const action = (
 		<div className="flex gap-4">
@@ -17,13 +31,20 @@ export default function NewProject() {
 				<X />
 				<span>Cancel</span>
 			</Button>
-			<Button className="flex bg-blue-700 hover:bg-blue-500 cursor-pointer">
+			<Button
+				className="flex bg-blue-700 hover:bg-blue-500 cursor-pointer"
+				onClick={handleSaveClick}
+			>
 				<Save />
 				<span>Save Project</span>
 			</Button>
 		</div>
 	);
 	return (
-		<Layout children={<NewProjectForm />} title="New Project" action={action} />
+		<Layout
+			children={<NewProjectForm ref={formRef} onSubmit={handleSubmit} />}
+			title="New Project"
+			action={action}
+		/>
 	);
 }
