@@ -20,6 +20,8 @@ import {
 	SelectTrigger,
 	SelectValue
 } from "@/components/ui/select";
+import useGetProjectById from "@/api/hooks/projects/useGetProjectById";
+import type { ProjectResponse, Status } from "@/types/project";
 
 const ProjectStatus = {
 	PLANNING: "planning",
@@ -50,8 +52,8 @@ export interface NewProjectFormRef {
 
 const NewProjectForm = forwardRef<
 	NewProjectFormRef,
-	{ onSubmit: (data: NewProjectFormValues) => void }
->(({ onSubmit }, ref) => {
+	{ onSubmit: (data: NewProjectFormValues) => void; project?: ProjectResponse }
+>(({ onSubmit, project }, ref) => {
 	const form = useForm<NewProjectFormValues>({
 		resolver: zodResolver(formSchema)
 	});
@@ -67,13 +69,13 @@ const NewProjectForm = forwardRef<
 			onSubmit(values);
 		} catch (error) {}
 	};
-
 	return (
 		<Form {...form}>
 			<form className="space-y-8 max-w-3xl mx-6 py-4">
 				<FormField
 					control={form.control}
 					name="title"
+					defaultValue={project?.title}
 					render={({ field }) => (
 						<FormItem>
 							<div className="flex">
@@ -91,6 +93,7 @@ const NewProjectForm = forwardRef<
 				<FormField
 					control={form.control}
 					name="description"
+					defaultValue={project?.description}
 					render={({ field }) => (
 						<FormItem>
 							<div className="flex">
@@ -112,6 +115,7 @@ const NewProjectForm = forwardRef<
 				<FormField
 					control={form.control}
 					name="project_img"
+					defaultValue={project?.illustration}
 					render={({ field }) => (
 						<FormItem>
 							<div className="flex">
@@ -133,6 +137,7 @@ const NewProjectForm = forwardRef<
 				<FormField
 					control={form.control}
 					name="project_status"
+					defaultValue={project?.status as Status}
 					render={({ field }) => (
 						<FormItem>
 							<div className="flex">
@@ -159,6 +164,7 @@ const NewProjectForm = forwardRef<
 				<FormField
 					control={form.control}
 					name="github_link"
+					defaultValue={project?.github_link}
 					render={({ field }) => (
 						<FormItem>
 							<div className="flex">
@@ -180,6 +186,7 @@ const NewProjectForm = forwardRef<
 				<FormField
 					control={form.control}
 					name="website_link"
+					defaultValue={project?.website_link}
 					render={({ field }) => (
 						<FormItem>
 							<div className="flex">

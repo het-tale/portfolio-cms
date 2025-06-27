@@ -8,9 +8,13 @@ import NewProjectForm, {
 } from "./new-project-form";
 import { useRef } from "react";
 import useCreateProject from "@/api/hooks/projects/useCreateProject";
-import type { ProjectStatus } from "@/types/project";
+import type { ProjectResponse, ProjectStatus } from "@/types/project";
 
-export default function NewProject() {
+export type NewProjectProps = {
+	project?: ProjectResponse;
+};
+
+export default function NewProject({ project }: NewProjectProps) {
 	const formRef = useRef<NewProjectFormRef>(null);
 
 	const handleSaveClick = () => {
@@ -46,10 +50,17 @@ export default function NewProject() {
 			</Button>
 		</div>
 	);
+
 	return (
 		<Layout
-			children={<NewProjectForm ref={formRef} onSubmit={handleSubmit} />}
-			title="New Project"
+			children={
+				<NewProjectForm
+					ref={formRef}
+					onSubmit={handleSubmit}
+					project={project}
+				/>
+			}
+			title={project ? "Edit Project" : "New Project"}
 			action={action}
 		/>
 	);

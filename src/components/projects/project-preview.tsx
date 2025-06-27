@@ -9,6 +9,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import type { ProjectResponse } from "@/types/project";
+import { Link } from "@tanstack/react-router";
 
 type ProjectPreviewProps = {
 	project: ProjectResponse;
@@ -47,9 +48,11 @@ export default function ProjectPreview({ project }: ProjectPreviewProps) {
 					{project.status}
 				</Badge>
 				<div className="flex gap-2">
-					<div className="rounded-full bg-violet-600 w-8 h-8 text-white p-1">
-						<Pencil />
-					</div>
+					<Link href={`/projects/edit/${project.project_id}`} to={"."}>
+						<div className="rounded-full bg-violet-600 w-8 h-8 text-white p-1">
+							<Pencil />
+						</div>
+					</Link>
 					<div className="rounded-full bg-red-700 w-8 h-8 text-white p-1">
 						<Trash />
 					</div>

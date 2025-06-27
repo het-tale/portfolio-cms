@@ -13,6 +13,7 @@ export interface Project {
 }
 
 export interface ProjectResponse {
+	project_id: string;
 	title: string;
 	description: string;
 	status: string;
@@ -20,3 +21,5 @@ export interface ProjectResponse {
 	website_link: string;
 	illustration: string;
 }
+
+export type Status = "planning" | "in_progress" | "completed" | undefined;

@@ -4,6 +4,7 @@ import Login from "./components/auth/login.tsx";
 import Dashboard from "./components/dashboard/dashboard.tsx";
 import Projects from "./components/projects/projects.tsx";
 import NewProject from "./components/projects/new-project.tsx";
+import EditProject from "./components/projects/edit-project.tsx";
 
 const rootRoute = createRootRoute({
 	component: () => (
@@ -47,6 +48,12 @@ const newProjectRoute = createRoute({
 	component: NewProject
 });
 
+const editProjectRoute = createRoute({
+	getParentRoute: () => rootRoute,
+	path: "/projects/edit/$id",
+	component: EditProject
+});
+
 /**
  *
  * Add all routes
@@ -56,7 +63,8 @@ export const routeTree = rootRoute.addChildren([
 	loginRoute,
 	dashboardRoute,
 	projectsRoute,
-	newProjectRoute
+	newProjectRoute,
+	editProjectRoute
 ]);
 
 export default rootRoute;
