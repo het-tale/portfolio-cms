@@ -12,9 +12,9 @@ export default function Layout({
 	action: ReactElement;
 }) {
 	return (
-		<div className="flex bg-gray-100 h-full h-screen w-full">
+		<div className="flex bg-gray-100 h-screen w-full">
 			<Sidebar />
-			<div className="flex flex-col w-full">
+			<div className="flex flex-col w-full ml-52">
 				<Navbar title={title} action={action} />
 				{children}
 			</div>

@@ -10,6 +10,7 @@ import {
 	SelectTrigger,
 	SelectValue
 } from "@/components/ui/select";
+import ProjectPreview from "./project-preview";
 export default function Projects() {
 	const navigate = useNavigate();
 	const action = (
@@ -26,22 +27,29 @@ export default function Projects() {
 	return (
 		<Layout
 			children={
-				<SearchFilter
-					toBeSearched="projects"
-					filter={
-						<Select>
-							<SelectTrigger className="w-[180px]">
-								<SelectValue placeholder="Project status" />
-							</SelectTrigger>
+				<div className="flex flex-col">
+					<SearchFilter
+						toBeSearched="projects"
+						filter={
+							<Select>
+								<SelectTrigger className="w-[180px]">
+									<SelectValue placeholder="Project status" />
+								</SelectTrigger>
 
-							<SelectContent>
-								<SelectItem value="planning">Planning</SelectItem>
-								<SelectItem value="in_progress">In Progress</SelectItem>
-								<SelectItem value="completed">Completed</SelectItem>
-							</SelectContent>
-						</Select>
-					}
-				/>
+								<SelectContent>
+									<SelectItem value="planning">Planning</SelectItem>
+									<SelectItem value="in_progress">In Progress</SelectItem>
+									<SelectItem value="completed">Completed</SelectItem>
+								</SelectContent>
+							</Select>
+						}
+					/>
+					<div className="ml-8 grid grid-cols-3 gap-2 mr-6">
+						<ProjectPreview />
+						<ProjectPreview />
+						<ProjectPreview />
+					</div>
+				</div>
 			}
 			title="Projects"
 			action={action}
