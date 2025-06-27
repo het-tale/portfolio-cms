@@ -7,6 +7,8 @@ import NewProjectForm, {
 	type NewProjectFormValues
 } from "./new-project-form";
 import { useRef } from "react";
+import useCreateProject from "@/api/hooks/projects/useCreateProject";
+import type { ProjectStatus } from "@/types/project";
 
 export default function NewProject() {
 	const formRef = useRef<NewProjectFormRef>(null);
@@ -14,10 +16,14 @@ export default function NewProject() {
 	const handleSaveClick = () => {
 		formRef.current?.submitForm();
 	};
-
+	const { mutate } = useCreateProject();
 	const handleSubmit = (data: NewProjectFormValues) => {
 		console.log("Form submitted:", data);
-		// To Do: Add mutation or API call here
+		mutate({
+			...data,
+			project_status: data.project_status as ProjectStatus,
+			project_img: data.project_img
+		});
 	};
 	const navigate = useNavigate();
 	const action = (

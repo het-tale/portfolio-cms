@@ -22,13 +22,25 @@ import {
 	SelectValue
 } from "@/components/ui/select";
 
+const ProjectStatus = {
+	PLANNING: "planning",
+	IN_PROGRESS: "in_progress",
+	COMPLETED: "completed"
+} as const;
+
+type ProjectStatus = keyof typeof ProjectStatus;
+
 const formSchema = z.object({
 	title: z.string().min(1, "Title is required"),
 	description: z.string(),
-	project_img: z.string().min(1, "Image is required"),
-	project_status: z.string(),
+	project_img: z
+		.any()
+		.refine((file) => file instanceof FileList && file.length > 0, {
+			message: "Image is required"
+		}),
 	github_link: z.string().min(1),
-	website_link: z.string().min(1)
+	website_link: z.string().min(1),
+	project_status: z.nativeEnum(ProjectStatus)
 });
 
 export type NewProjectFormValues = z.infer<typeof formSchema>;
@@ -54,10 +66,7 @@ const NewProjectForm = forwardRef<
 	const handleInternalSubmit = (values: NewProjectFormValues) => {
 		try {
 			onSubmit(values);
-			toast.message("Data submitted");
-		} catch (error) {
-			toast.error("Failed to submit the form. Please try again.");
-		}
+		} catch (error) {}
 	};
 
 	return (
@@ -114,7 +123,7 @@ const NewProjectForm = forwardRef<
 								<Input
 									placeholder="Provide project image"
 									type="file"
-									{...field}
+									onChange={(e) => field.onChange(e.target.files)}
 								/>
 							</FormControl>
 							<FormMessage />
@@ -139,7 +148,7 @@ const NewProjectForm = forwardRef<
 								</FormControl>
 								<SelectContent>
 									<SelectItem value="planning">Planning</SelectItem>
-									<SelectItem value="in progress">In Progress</SelectItem>
+									<SelectItem value="in_progress">In Progress</SelectItem>
 									<SelectItem value="completed">Completed</SelectItem>
 								</SelectContent>
 							</Select>
