@@ -2,7 +2,14 @@ import { Plus } from "lucide-react";
 import Layout from "../layout/layout";
 import { Button } from "../ui/button";
 import { useNavigate } from "@tanstack/react-router";
-
+import SearchFilter from "../layout/search-filter";
+import {
+	SelectContent,
+	SelectItem,
+	Select,
+	SelectTrigger,
+	SelectValue
+} from "@/components/ui/select";
 export default function Projects() {
 	const navigate = useNavigate();
 	const action = (
@@ -16,5 +23,28 @@ export default function Projects() {
 			<span>New Project</span>
 		</Button>
 	);
-	return <Layout children={<></>} title="Projects" action={action} />;
+	return (
+		<Layout
+			children={
+				<SearchFilter
+					toBeSearched="projects"
+					filter={
+						<Select>
+							<SelectTrigger className="w-[180px]">
+								<SelectValue placeholder="Project status" />
+							</SelectTrigger>
+
+							<SelectContent>
+								<SelectItem value="planning">Planning</SelectItem>
+								<SelectItem value="in_progress">In Progress</SelectItem>
+								<SelectItem value="completed">Completed</SelectItem>
+							</SelectContent>
+						</Select>
+					}
+				/>
+			}
+			title="Projects"
+			action={action}
+		/>
+	);
 }
