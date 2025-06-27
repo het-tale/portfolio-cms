@@ -8,23 +8,44 @@ import {
 } from "../ui/card";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import type { ProjectResponse } from "@/types/project";
 
-export default function ProjectPreview() {
+type ProjectPreviewProps = {
+	project: ProjectResponse;
+};
+
+export default function ProjectPreview({ project }: ProjectPreviewProps) {
 	return (
 		<Card>
-			<CardHeader>
+			<CardHeader className="max-h-64">
 				<CardTitle>
-					<img src="/logo192.png" />
+					<img
+						src={project.illustration}
+						className="max-h-56 w-full"
+						onError={(e) => {
+							const target = e.currentTarget;
+							target.onerror = null;
+							target.src = "logo192.png";
+						}}
+					/>
 				</CardTitle>
 			</CardHeader>
 			<CardContent>
-				<h2 className="text-xl font-bold">E-commerce Website</h2>
-				<p>
-					A fully functional e-commerce platform built with React and Node.js
-				</p>
+				<h2 className="text-xl font-bold">{project.title}</h2>
+				<p>{project.description}</p>
 			</CardContent>
 			<CardFooter className="flex justify-between">
-				<Badge className={cn("bg-blue-200 text-blue-500")}>Completed</Badge>
+				<Badge
+					className={cn(
+						project.status === "planning"
+							? "bg-blue-200 text-blue-500"
+							: "in_progress"
+								? "bg-yellow-200 text-yellow-500"
+								: "bg-green-200 text-green-500"
+					)}
+				>
+					{project.status}
+				</Badge>
 				<div className="flex gap-2">
 					<div className="rounded-full bg-violet-600 w-8 h-8 text-white p-1">
 						<Pencil />

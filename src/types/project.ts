@@ -11,3 +11,12 @@ export interface Project {
 	website_link: string;
 	project_img: FileList;
 }
+
+export interface ProjectResponse {
+	title: string;
+	description: string;
+	status: string;
+	github_link: string;
+	website_link: string;
+	illustration: string;
+}

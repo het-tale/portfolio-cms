@@ -11,6 +11,7 @@ import {
 	SelectValue
 } from "@/components/ui/select";
 import ProjectPreview from "./project-preview";
+import useGetProjects from "@/api/hooks/projects/useGetProjects";
 export default function Projects() {
 	const navigate = useNavigate();
 	const action = (
@@ -24,6 +25,7 @@ export default function Projects() {
 			<span>New Project</span>
 		</Button>
 	);
+	const { data: projects } = useGetProjects();
 	return (
 		<Layout
 			children={
@@ -45,9 +47,9 @@ export default function Projects() {
 						}
 					/>
 					<div className="ml-8 grid grid-cols-3 gap-2 mr-6">
-						<ProjectPreview />
-						<ProjectPreview />
-						<ProjectPreview />
+						{projects?.map((project) => {
+							return <ProjectPreview project={project} />;
+						})}
 					</div>
 				</div>
 			}
