@@ -12,6 +12,8 @@ import {
 } from "@/components/ui/select";
 import ProjectPreview from "./project-preview";
 import useGetProjects from "@/api/hooks/projects/useGetProjects";
+import type { ProjectResponse } from "@/types/project";
+import { useEffect, useState } from "react";
 export default function Projects() {
 	const navigate = useNavigate();
 	const action = (
@@ -26,6 +28,19 @@ export default function Projects() {
 		</Button>
 	);
 	const { data: projects } = useGetProjects();
+	const [filteredData, setFilteredData] = useState<ProjectResponse[]>([]);
+
+	useEffect(() => {
+		if (projects) {
+			setFilteredData(projects);
+		}
+	}, [projects]);
+
+	const handleStatusChange = (status: string) => {
+		if (!projects) return;
+		const result = projects.filter((project) => project.status === status);
+		setFilteredData(result);
+	};
 	return (
 		<Layout
 			children={
@@ -33,7 +48,7 @@ export default function Projects() {
 					<SearchFilter
 						toBeSearched="projects"
 						filter={
-							<Select>
+							<Select onValueChange={handleStatusChange}>
 								<SelectTrigger className="w-[180px]">
 									<SelectValue placeholder="Project status" />
 								</SelectTrigger>
@@ -47,7 +62,7 @@ export default function Projects() {
 						}
 					/>
 					<div className="ml-8 grid grid-cols-3 gap-2 mr-6">
-						{projects?.map((project) => {
+						{filteredData?.map((project) => {
 							return <ProjectPreview project={project} />;
 						})}
 					</div>
