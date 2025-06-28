@@ -5,6 +5,7 @@ import Dashboard from "./components/dashboard/dashboard.tsx";
 import Projects from "./components/projects/projects.tsx";
 import NewProject from "./components/projects/new-project.tsx";
 import EditProject from "./components/projects/edit-project.tsx";
+import Resume from "./components/resume/resume.tsx";
 
 const rootRoute = createRootRoute({
 	component: () => (
@@ -56,6 +57,16 @@ const editProjectRoute = createRoute({
 
 /**
  *
+ * Resume Routes
+ *
+ */
+const resumeRoute = createRoute({
+	getParentRoute: () => rootRoute,
+	path: "/resume",
+	component: Resume
+});
+/**
+ *
  * Add all routes
  */
 export const routeTree = rootRoute.addChildren([
@@ -64,7 +75,8 @@ export const routeTree = rootRoute.addChildren([
 	dashboardRoute,
 	projectsRoute,
 	newProjectRoute,
-	editProjectRoute
+	editProjectRoute,
+	resumeRoute
 ]);
 
 export default rootRoute;
