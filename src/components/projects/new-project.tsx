@@ -9,6 +9,7 @@ import NewProjectForm, {
 import { useRef } from "react";
 import useCreateProject from "@/api/hooks/projects/useCreateProject";
 import type { ProjectResponse, ProjectStatus } from "@/types/project";
+import useUpdateProject from "@/api/hooks/projects/useUpdateProject";
 
 export type NewProjectProps = {
 	project?: ProjectResponse;
@@ -21,12 +22,30 @@ export default function NewProject({ project }: NewProjectProps) {
 		formRef.current?.submitForm();
 	};
 	const { mutate } = useCreateProject();
+	const { mutate: update } = useUpdateProject();
 	const handleSubmit = (data: NewProjectFormValues) => {
 		console.log("Form submitted:", data);
 		mutate({
 			...data,
 			project_status: data.project_status as ProjectStatus,
-			project_img: data.project_img
+			project_img: data.project_img || new DataTransfer().files
+		});
+	};
+	const handleUpdate = (data: NewProjectFormValues) => {
+		console.log("Form updated:", data);
+		const formData = new FormData();
+		formData.append("title", data.title);
+		formData.append("description", data.description);
+		formData.append("project_status", data.project_status);
+		formData.append("github_link", data.github_link);
+		formData.append("website_link", data.website_link);
+		if (data.project_img && data.project_img.length > 0) {
+			formData.append("project_img", data.project_img[0]);
+		}
+
+		update({
+			project_id: project?.project_id || "",
+			project: formData
 		});
 	};
 	const navigate = useNavigate();
@@ -56,7 +75,7 @@ export default function NewProject({ project }: NewProjectProps) {
 			children={
 				<NewProjectForm
 					ref={formRef}
-					onSubmit={handleSubmit}
+					onSubmit={project ? handleUpdate : handleSubmit}
 					project={project}
 				/>
 			}

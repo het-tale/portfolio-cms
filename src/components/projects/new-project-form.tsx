@@ -20,7 +20,6 @@ import {
 	SelectTrigger,
 	SelectValue
 } from "@/components/ui/select";
-import useGetProjectById from "@/api/hooks/projects/useGetProjectById";
 import type { ProjectResponse, Status } from "@/types/project";
 
 const ProjectStatus = {
@@ -35,10 +34,17 @@ const formSchema = z.object({
 	title: z.string().min(1, "Title is required"),
 	description: z.string(),
 	project_img: z
-		.any()
-		.refine((file) => file instanceof FileList && file.length > 0, {
-			message: "Image is required"
-		}),
+		.custom<FileList>()
+		.refine(
+			(fileList) =>
+				fileList instanceof FileList
+					? fileList.length === 0 || fileList.length > 0
+					: true,
+			{
+				message: "Invalid file input"
+			}
+		)
+		.optional(),
 	github_link: z.string().min(1),
 	website_link: z.string().min(1),
 	project_status: z.nativeEnum(ProjectStatus)
@@ -115,13 +121,19 @@ const NewProjectForm = forwardRef<
 				<FormField
 					control={form.control}
 					name="project_img"
-					defaultValue={project?.illustration}
 					render={({ field }) => (
 						<FormItem>
 							<div className="flex">
 								<FormLabel>Project Image</FormLabel>
 								<span className="text-red-500">*</span>
 							</div>
+							{project?.illustration && (
+								<img
+									src={project.illustration}
+									alt="Project"
+									className="h-24 mb-2 rounded"
+								/>
+							)}
 							<FormControl>
 								<Input
 									placeholder="Provide project image"

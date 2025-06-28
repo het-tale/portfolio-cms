@@ -40,7 +40,7 @@ export default function ProjectPreview({ project }: ProjectPreviewProps) {
 					className={cn(
 						project.status === "planning"
 							? "bg-blue-200 text-blue-500"
-							: "in_progress"
+							: project.status === "in_progress"
 								? "bg-yellow-200 text-yellow-500"
 								: "bg-green-200 text-green-500"
 					)}
