@@ -1,10 +1,10 @@
 import { Award, FileText, FolderDot, Plus, StickyNote } from "lucide-react";
-import Navbar from "../layout/navbar";
-import Sidebar from "../layout/sidebar";
+
 import CardStats from "./card-stats";
 import useGetProjects from "@/api/hooks/projects/useGetProjects";
 import useGetSkills from "@/api/hooks/skills/useGetSkills";
 import useGetResume from "@/api/hooks/resume/useGetResume";
+import Layout from "../layout/layout";
 
 export default function Dashboard() {
 	const { data: projects } = useGetProjects();
@@ -75,29 +75,32 @@ export default function Dashboard() {
 			href: ""
 		}
 	];
-	return (
-		<div className="flex bg-gray-100 h-full h-screen w-full">
-			<Sidebar />
-			<div className="flex flex-col w-full">
-				<Navbar title="Dashboard" action={<span>Welcome back, Admin</span>} />
-				<div className="grid grid-cols-4 gap-2 mt-4 p-8">
-					{stats.map((stat) => {
-						return (
-							<CardStats
-								title={stat.title}
-								icon={stat.icon}
-								counter={stat.counter}
-							/>
-						);
-					})}
-				</div>
-				<h2 className="font-semibold px-8 text-xl">Quick Actions</h2>
-				<div className="grid grid-cols-4 gap-2 mt-4 p-8">
-					{actions.map((action) => {
-						return <CardStats title={action.title} icon={action.icon} />;
-					})}
-				</div>
+	const children = (
+		<>
+			<div className="grid grid-cols-4 gap-2 mt-4 p-8">
+				{stats.map((stat) => {
+					return (
+						<CardStats
+							title={stat.title}
+							icon={stat.icon}
+							counter={stat.counter}
+						/>
+					);
+				})}
 			</div>
-		</div>
+			<h2 className="font-semibold px-8 text-xl">Quick Actions</h2>
+			<div className="grid grid-cols-4 gap-2 mt-4 p-8">
+				{actions.map((action) => {
+					return <CardStats title={action.title} icon={action.icon} />;
+				})}
+			</div>
+		</>
+	);
+	return (
+		<Layout
+			children={children}
+			title="Dashboard"
+			action={<span>Welcome back, Admin</span>}
+		/>
 	);
 }

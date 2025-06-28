@@ -47,7 +47,7 @@ export default function Sidebar() {
 		}
 	];
 	return (
-		<div className="flex flex-col bg-white p-4 justify-between h-screen">
+		<div className="flex flex-col bg-white p-4 justify-between h-screen fixed">
 			<div className="flex flex-col">
 				<h1 className="font-bold text-3xl mb-4">PortfolioHub</h1>
 				<Separator />
