@@ -10,12 +10,28 @@ import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import type { ProjectResponse } from "@/types/project";
 import { Link } from "@tanstack/react-router";
+import {
+	Dialog,
+	DialogClose,
+	DialogContent,
+	DialogDescription,
+	DialogFooter,
+	DialogHeader,
+	DialogTitle,
+	DialogTrigger
+} from "@/components/ui/dialog";
+import { Button } from "../ui/button";
+import useDeleteProject from "@/api/hooks/projects/useDeleteProject";
 
 type ProjectPreviewProps = {
 	project: ProjectResponse;
 };
-
 export default function ProjectPreview({ project }: ProjectPreviewProps) {
+	const { deleteProject } = useDeleteProject();
+	const handleDelete = () => {
+		console.log("project deleteed");
+		deleteProject({ project_id: project.project_id });
+	};
 	return (
 		<Card>
 			<CardHeader className="max-h-64">
@@ -54,7 +70,30 @@ export default function ProjectPreview({ project }: ProjectPreviewProps) {
 						</div>
 					</Link>
 					<div className="rounded-full bg-red-700 w-8 h-8 text-white p-1">
-						<Trash />
+						<Dialog>
+							<DialogTrigger className="cursor-pointer">
+								<Trash />
+							</DialogTrigger>
+							<DialogContent>
+								<form onSubmit={handleDelete}>
+									<DialogHeader>
+										<DialogTitle>Are you absolutely sure?</DialogTitle>
+										<DialogDescription>
+											This action cannot be undone. This will permanently delete
+											your project and remove your data from our servers.
+										</DialogDescription>
+									</DialogHeader>
+									<DialogFooter>
+										<DialogClose asChild>
+											<Button variant="outline">Cancel</Button>
+										</DialogClose>
+										<DialogClose asChild>
+											<Button type="submit">Confirm</Button>
+										</DialogClose>
+									</DialogFooter>
+								</form>
+							</DialogContent>
+						</Dialog>
 					</div>
 				</div>
 			</CardFooter>
