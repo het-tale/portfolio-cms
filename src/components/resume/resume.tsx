@@ -2,7 +2,8 @@ import { Download, Trash, Upload } from "lucide-react";
 import Layout from "../layout/layout";
 import { Button } from "../ui/button";
 import useGetResume from "@/api/hooks/resume/useGetResume";
-
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import UploadResumeForm from "./resume-form";
 export default function Resume() {
 	const { data } = useGetResume();
 	const action = (
@@ -15,10 +16,18 @@ export default function Resume() {
 				<Download />
 				<span>Download</span>
 			</Button>
-			<Button className="flex bg-blue-700 text-white" variant={"ghost"}>
-				<Upload />
-				<span>Upload New Resume</span>
-			</Button>
+
+			<Dialog>
+				<DialogTrigger className="cursor-pointer">
+					<Button className="flex bg-blue-700 text-white" variant={"ghost"}>
+						<Upload />
+						<span>Upload New Resume</span>
+					</Button>
+				</DialogTrigger>
+				<DialogContent>
+					<UploadResumeForm />
+				</DialogContent>
+			</Dialog>
 		</div>
 	);
 	return (
