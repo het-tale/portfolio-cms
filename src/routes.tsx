@@ -7,7 +7,8 @@ import NewProject from "./components/projects/new-project.tsx";
 import EditProject from "./components/projects/edit-project.tsx";
 import Resume from "./components/resume/resume.tsx";
 import Skills from "./components/skills/skills.tsx";
-import NewSkill from "./components/resume/new-skill.tsx";
+import NewSkill from "./components/skills/new-skill.tsx";
+import EditSkill from "./components/skills/edit-skill.tsx";
 
 const rootRoute = createRootRoute({
 	component: () => (
@@ -85,11 +86,11 @@ const newSkillRoute = createRoute({
 	component: NewSkill
 });
 
-// const editSkillRoute = createRoute({
-// 	getParentRoute: () => rootRoute,
-// 	path: "/skills/edit/$id",
-// 	component: EditSkill
-// });
+const editSkillRoute = createRoute({
+	getParentRoute: () => rootRoute,
+	path: "/skills/edit/$id",
+	component: EditSkill
+});
 
 /**
  *
@@ -104,7 +105,8 @@ export const routeTree = rootRoute.addChildren([
 	editProjectRoute,
 	resumeRoute,
 	skillsRoute,
-	newSkillRoute
+	newSkillRoute,
+	editSkillRoute
 ]);
 
 export default rootRoute;

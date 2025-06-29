@@ -43,7 +43,7 @@ export default function SkillsData({ skillData }: SKillsDataProps) {
 						<TableCell>{skill.years_of_experience}</TableCell>
 						<TableCell className="">
 							<div className="flex gap-2">
-								<Link href={``} to={"."}>
+								<Link href={`/skills/edit/${skill.skill_id}`} to={"."}>
 									<div className="rounded-full bg-violet-600 w-8 h-8 text-white p-1">
 										<Pencil />
 									</div>
