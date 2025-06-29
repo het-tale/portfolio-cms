@@ -1,10 +1,10 @@
-enum Category {
-	PROGRAMMING_LANGUAGES,
-	FRONTEND,
-	BACKEND,
-	DATABASE,
-	DEVOPS,
-	TOOLS
+export enum Category {
+	PROGRAMMING_LANGUAGES = "programming_languages",
+	FRONTEND = "frontend",
+	BACKEND = "backend",
+	DATABASE = "database",
+	DEVOPS = "devops",
+	TOOLS = "tools"
 }
 export interface Skill {
 	name: string;
