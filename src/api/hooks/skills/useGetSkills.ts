@@ -4,7 +4,7 @@ import { useQuery, type QueryFunctionContext } from "@tanstack/react-query";
 
 const useGetSkills = (search?: string) => {
 	const { data, isPending } = useQuery<Skill[]>({
-		queryKey: ["skills", search],
+		queryKey: ["skill", search],
 		queryFn: async (ctx: QueryFunctionContext) => {
 			const [_key, searchQuery = ""] = ctx.queryKey as [string, string?];
 			return await GetSkills(searchQuery);

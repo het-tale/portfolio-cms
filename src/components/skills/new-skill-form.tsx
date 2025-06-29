@@ -57,7 +57,7 @@ export default function NewSkillForm({ skill }: NewSkillProps) {
 		<Form {...form}>
 			<form
 				onSubmit={form.handleSubmit(skill ? onUpdate : onSubmit)}
-				className="space-y-8 max-w-3xl mx-6 py-4"
+				className="space-y-8 max-w-3xl mx-8 py-4"
 				id="skill"
 			>
 				<FormField
