@@ -10,11 +10,13 @@ import {
 	SelectTrigger,
 	SelectValue
 } from "@/components/ui/select";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import SkillsData from "./skills-data";
+import useDebouncedSKills from "@/hooks/useDebouncedSkill";
+import type { Skill } from "@/types/skill";
 
 export default function Skills() {
 	const navigate = useNavigate();
-	const [searchTerm, setSearchTerm] = useState<string | undefined>("");
 	const action = (
 		<Button
 			className="flex bg-blue-700 hover:bg-blue-500"
@@ -26,8 +28,19 @@ export default function Skills() {
 			<span>New Skill</span>
 		</Button>
 	);
+	const [searchTerm, setSearchTerm] = useState<string | undefined>("");
+	const { data: skills } = useDebouncedSKills(searchTerm);
+	const [filteredData, setFilteredData] = useState<Skill[]>([]);
+	useEffect(() => {
+		if (skills) {
+			setFilteredData(skills);
+		}
+	}, [skills]);
 	const handleCategoryChange = (category: string) => {
 		console.log("Category", category);
+		if (!skills) return;
+		const result = skills.filter((project) => project.category === category);
+		setFilteredData(result);
 	};
 	return (
 		<Layout
@@ -55,6 +68,7 @@ export default function Skills() {
 							</Select>
 						}
 					/>
+					<SkillsData skillData={filteredData} />
 				</div>
 			}
 			title="Skills"

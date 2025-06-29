@@ -1,11 +1,14 @@
 import GetSkills from "@/api/services/skills/get-skills";
 import type { Skill } from "@/types/skill";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, type QueryFunctionContext } from "@tanstack/react-query";
 
-const useGetSkills = () => {
+const useGetSkills = (search?: string) => {
 	const { data, isPending } = useQuery<Skill[]>({
-		queryKey: ["skills"],
-		queryFn: GetSkills
+		queryKey: ["skills", search],
+		queryFn: async (ctx: QueryFunctionContext) => {
+			const [_key, searchQuery = ""] = ctx.queryKey as [string, string?];
+			return await GetSkills(searchQuery);
+		}
 	});
 	return {
 		data,
