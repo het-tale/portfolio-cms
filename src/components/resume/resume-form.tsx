@@ -13,27 +13,51 @@ import {
 	FormMessage
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import {
+	DialogClose,
+	DialogDescription,
+	DialogFooter,
+	DialogHeader,
+	DialogTitle
+} from "../ui/dialog";
+import useUploadResume from "@/api/hooks/resume/useUploadResume";
+import { useRef } from "react";
 
 const formSchema = z.object({
-	resume_file: z.string().min(1)
+	resume_file: z
+		.custom<FileList>()
+		.refine(
+			(fileList) =>
+				fileList instanceof FileList
+					? fileList.length === 0 || fileList.length > 0
+					: true,
+			{
+				message: "Invalid file input"
+			}
+		)
 });
 
-export default function MyForm() {
+export default function UploadResumeForm() {
+	const closeRef = useRef<HTMLButtonElement>(null);
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema)
 	});
 
+	const { upload } = useUploadResume();
 	function onSubmit(values: z.infer<typeof formSchema>) {
+		const formData = new FormData();
+		formData.append("resume_file", values.resume_file[0]); // 👈 append the actual file
+
 		try {
-			console.log(values);
-			toast(
-				<pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-					<code className="text-white">{JSON.stringify(values, null, 2)}</code>
-				</pre>
-			);
-		} catch (error) {
-			console.error("Form submission error", error);
-			toast.error("Failed to submit the form. Please try again.");
+			upload(formData);
+			if (closeRef.current) {
+				closeRef.current.click();
+			}
+			toast.success("Resume uploaded successfully");
+			form.reset();
+		} catch (err) {
+			console.error(err);
+			toast.error("Failed to upload resume");
 		}
 	}
 
@@ -41,27 +65,48 @@ export default function MyForm() {
 		<Form {...form}>
 			<form
 				onSubmit={form.handleSubmit(onSubmit)}
-				className="space-y-8 max-w-3xl mx-auto py-10"
+				className="space-y-8 max-w-3xl"
 			>
-				<FormField
-					control={form.control}
-					name="resume_file"
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>Resume</FormLabel>
-							<FormControl>
-								<Input
-									placeholder="Attach your resume"
-									type="file"
-									{...field}
-								/>
-							</FormControl>
+				<DialogHeader>
+					<DialogTitle className="mb-4">
+						Please Upload Your New Resume
+					</DialogTitle>
+					<DialogDescription>
+						<FormField
+							control={form.control}
+							name="resume_file"
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Resume File</FormLabel>
+									<FormControl>
+										<Input
+											placeholder="Attach your resume"
+											type="file"
+											onChange={(e) => field.onChange(e.target.files)}
+										/>
+									</FormControl>
 
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
-				<Button type="submit">Submit</Button>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+					</DialogDescription>
+				</DialogHeader>
+
+				<DialogFooter>
+					<DialogClose asChild>
+						<Button variant="outline">Cancel</Button>
+					</DialogClose>
+					<DialogClose asChild>
+						<Button
+							type="submit"
+							ref={closeRef}
+							className="bg-blue-700 hover:bg-blue-500"
+						>
+							Upload
+						</Button>
+					</DialogClose>
+				</DialogFooter>
 			</form>
 		</Form>
 	);
