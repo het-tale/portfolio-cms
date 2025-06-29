@@ -21,6 +21,7 @@ import {
 import type { NewSkillProps } from "./new-skill";
 import useCreateSkill from "@/api/hooks/skills/useCreateSkill";
 import type { Category } from "@/types/skill";
+import useUpdateSkill from "@/api/hooks/skills/useUpdateSkill";
 
 const formSchema = z.object({
 	name: z.string().min(1),
@@ -33,6 +34,7 @@ export default function NewSkillForm({ skill }: NewSkillProps) {
 		resolver: zodResolver(formSchema)
 	});
 	const { createSkill } = useCreateSkill();
+	const { updateSkill } = useUpdateSkill();
 	function onSubmit(values: z.infer<typeof formSchema>) {
 		console.log("create skill", values);
 		createSkill({
@@ -42,6 +44,13 @@ export default function NewSkillForm({ skill }: NewSkillProps) {
 	}
 	function onUpdate(values: z.infer<typeof formSchema>) {
 		console.log("Edit skill", values);
+		updateSkill({
+			skill_id: skill?.skill_id || "",
+			skill: {
+				...values,
+				category: values.category as Category
+			}
+		});
 	}
 
 	return (
