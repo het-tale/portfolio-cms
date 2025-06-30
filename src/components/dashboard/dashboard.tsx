@@ -5,6 +5,7 @@ import useGetProjects from "@/api/hooks/projects/useGetProjects";
 import useGetSkills from "@/api/hooks/skills/useGetSkills";
 import useGetResume from "@/api/hooks/resume/useGetResume";
 import Layout from "../layout/layout";
+import { Link } from "@tanstack/react-router";
 
 export default function Dashboard() {
 	const { data: projects } = useGetProjects();
@@ -50,7 +51,7 @@ export default function Dashboard() {
 		{
 			title: "Add New Project",
 			icon: <Plus className="bg-pink-100 rounded-full w-8 h-8" color="pink" />,
-			href: ""
+			href: "/projects/new"
 		},
 		{
 			title: "Add New Blog Post",
@@ -62,7 +63,7 @@ export default function Dashboard() {
 			icon: (
 				<Plus className="bg-green-200 rounded-full w-8 h-8" color="green" />
 			),
-			href: ""
+			href: "/skills/new"
 		},
 		{
 			title: "Update Resume",
@@ -72,7 +73,7 @@ export default function Dashboard() {
 					color="purple"
 				/>
 			),
-			href: ""
+			href: "/resume"
 		}
 	];
 	const children = (
@@ -91,7 +92,11 @@ export default function Dashboard() {
 			<h2 className="font-semibold px-8 text-xl">Quick Actions</h2>
 			<div className="grid grid-cols-4 gap-2 mt-4 p-8">
 				{actions.map((action) => {
-					return <CardStats title={action.title} icon={action.icon} />;
+					return (
+						<Link to={action.href}>
+							<CardStats title={action.title} icon={action.icon} />;
+						</Link>
+					);
 				})}
 			</div>
 		</>
