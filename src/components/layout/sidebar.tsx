@@ -14,36 +14,36 @@ import {
 	StickyNote,
 	User
 } from "lucide-react";
-import useLogout from "@/api/hooks/useLogout";
 import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function Sidebar() {
-	const { logout, isPending } = useLogout();
+	const { logout, logoutIsPending } = useAuth();
 	const navigation = [
 		{
 			title: "Dashboard",
-			href: "/dashboard",
+			href: "/app/dashboard",
 			icon: <LayoutDashboard width={40} />
 		},
 		{
 			title: "Projects",
-			href: "/projects",
+			href: "/app/projects",
 			icon: <FolderDot />
 		},
 		{
 			title: "Blog Posts",
-			href: "/posts",
+			href: "/app/posts",
 			icon: <FileText />
 		},
 		{
 			title: "Skills",
-			href: "/skills",
+			href: "/app/skills",
 			icon: <Award />
 		},
 		{
 			title: "Resume",
-			href: "/resume",
+			href: "/app/resume",
 			icon: <StickyNote />
 		}
 	];
@@ -89,7 +89,7 @@ export default function Sidebar() {
 				onClick={() => {
 					logout();
 				}}
-				disabled={isPending}
+				disabled={logoutIsPending}
 			>
 				<User />
 				<span className="font-semibold text-md">Logout</span>

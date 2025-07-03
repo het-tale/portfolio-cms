@@ -28,7 +28,7 @@ export default function useUpdateProject() {
 			queryClient.invalidateQueries({ queryKey: ["project"] });
 			const message = data.message || "Project Updated successfully";
 			toast.success(message);
-			navigate({ to: "/projects" });
+			navigate({ to: "/app/projects" });
 		},
 		onError: (err) => {
 			const message =

@@ -22,7 +22,7 @@ export default function useCreateProject() {
 		onSuccess: (data) => {
 			queryClient.invalidateQueries({ queryKey: ["project"] });
 			toast.success(data.message);
-			navigate({ to: "/projects" });
+			navigate({ to: "/app/projects" });
 		},
 		onError: (err) => {
 			const message =

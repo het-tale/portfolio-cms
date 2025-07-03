@@ -3,7 +3,7 @@ import NewProject from "./new-project";
 import useGetProjectById from "@/api/hooks/projects/useGetProjectById";
 
 export default function EditProject() {
-	const { id } = useParams({ from: "/projects/edit/$id" });
+	const { id } = useParams({ from: "/app/projects/edit/$id" });
 
 	const { data: project, isLoading } = useGetProjectById(id);
 	if (isLoading)

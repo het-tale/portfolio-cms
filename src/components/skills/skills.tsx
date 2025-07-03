@@ -21,7 +21,7 @@ export default function Skills() {
 		<Button
 			className="flex bg-blue-700 hover:bg-blue-500"
 			onClick={() => {
-				navigate({ to: "/skills/new" });
+				navigate({ to: "/app/skills/new" });
 			}}
 		>
 			<Plus />

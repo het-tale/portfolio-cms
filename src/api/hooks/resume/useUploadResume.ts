@@ -22,7 +22,7 @@ export default function useUploadResume() {
 			queryClient.invalidateQueries({ queryKey: ["resume"] });
 			const message = data.message || "Resume uploaded successfully";
 			toast.success(message);
-			navigate({ to: "/resume" });
+			navigate({ to: "/app/resume" });
 		},
 		onError: (err) => {
 			const message =

@@ -1,4 +1,9 @@
-import { Outlet, createRootRoute, createRoute } from "@tanstack/react-router";
+import {
+	Outlet,
+	createRootRoute,
+	createRoute,
+	redirect
+} from "@tanstack/react-router";
 import App from "./App";
 import Login from "./components/auth/login.tsx";
 import Dashboard from "./components/dashboard/dashboard.tsx";
@@ -9,6 +14,9 @@ import Resume from "./components/resume/resume.tsx";
 import Skills from "./components/skills/skills.tsx";
 import NewSkill from "./components/skills/new-skill.tsx";
 import EditSkill from "./components/skills/edit-skill.tsx";
+import GetUser from "./api/services/get-user.ts";
+import { queryClient } from "./lib/queryClient.ts";
+import { AuthProvider } from "./providers/auth-guard.tsx";
 
 const rootRoute = createRootRoute({
 	component: () => (
@@ -21,17 +29,34 @@ const rootRoute = createRootRoute({
 export const indexRoute = createRoute({
 	getParentRoute: () => rootRoute,
 	path: "/",
-	component: App
+	component: () => <App />
+});
+
+const authLayoutRoute = createRoute({
+	getParentRoute: () => rootRoute,
+	path: "/app",
+	component: AuthProvider,
+	beforeLoad: async () => {
+		try {
+			const user = await queryClient.ensureQueryData({
+				queryKey: ["user"],
+				queryFn: GetUser
+			});
+			if (!user) throw redirect({ to: "/login" });
+		} catch {
+			throw redirect({ to: "/login" });
+		}
+	}
 });
 
 export const loginRoute = createRoute({
 	getParentRoute: () => rootRoute,
 	path: "/login",
-	component: Login
+	component: () => <Login />
 });
 
 const dashboardRoute = createRoute({
-	getParentRoute: () => rootRoute,
+	getParentRoute: () => authLayoutRoute,
 	path: "/dashboard",
 	component: Dashboard
 });
@@ -41,19 +66,19 @@ const dashboardRoute = createRoute({
  *
  */
 const projectsRoute = createRoute({
-	getParentRoute: () => rootRoute,
+	getParentRoute: () => authLayoutRoute,
 	path: "/projects",
 	component: Projects
 });
 
 const newProjectRoute = createRoute({
-	getParentRoute: () => rootRoute,
+	getParentRoute: () => authLayoutRoute,
 	path: "/projects/new",
 	component: NewProject
 });
 
 const editProjectRoute = createRoute({
-	getParentRoute: () => rootRoute,
+	getParentRoute: () => authLayoutRoute,
 	path: "/projects/edit/$id",
 	component: EditProject
 });
@@ -64,7 +89,7 @@ const editProjectRoute = createRoute({
  *
  */
 const resumeRoute = createRoute({
-	getParentRoute: () => rootRoute,
+	getParentRoute: () => authLayoutRoute,
 	path: "/resume",
 	component: Resume
 });
@@ -75,19 +100,19 @@ const resumeRoute = createRoute({
  *
  */
 const skillsRoute = createRoute({
-	getParentRoute: () => rootRoute,
+	getParentRoute: () => authLayoutRoute,
 	path: "/skills",
 	component: Skills
 });
 
 const newSkillRoute = createRoute({
-	getParentRoute: () => rootRoute,
+	getParentRoute: () => authLayoutRoute,
 	path: "/skills/new",
 	component: NewSkill
 });
 
 const editSkillRoute = createRoute({
-	getParentRoute: () => rootRoute,
+	getParentRoute: () => authLayoutRoute,
 	path: "/skills/edit/$id",
 	component: EditSkill
 });
@@ -97,6 +122,7 @@ const editSkillRoute = createRoute({
  * Add all routes
  */
 export const routeTree = rootRoute.addChildren([
+	authLayoutRoute,
 	indexRoute,
 	loginRoute,
 	dashboardRoute,

@@ -22,7 +22,7 @@ export default function useDeleteSkill() {
 			queryClient.invalidateQueries({ queryKey: ["skill"] });
 			const message = data.message || "SKill Deleted successfully";
 			toast.success(message);
-			navigate({ to: "/skills" });
+			navigate({ to: "/app/skills" });
 		},
 		onError: (err) => {
 			const message =

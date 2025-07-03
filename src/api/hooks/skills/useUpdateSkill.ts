@@ -29,7 +29,7 @@ export default function useUpdateSkill() {
 			queryClient.invalidateQueries({ queryKey: ["skill"] });
 			const message = data.message || "Skill Updated successfully";
 			toast.success(message);
-			navigate({ to: "/skills" });
+			navigate({ to: "/app/skills" });
 		},
 		onError: (err) => {
 			const message =

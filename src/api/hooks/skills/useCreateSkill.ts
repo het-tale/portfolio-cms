@@ -22,7 +22,7 @@ export default function useCreateSkill() {
 		onSuccess: (data) => {
 			queryClient.invalidateQueries({ queryKey: ["skill"] });
 			toast.success(data.message);
-			navigate({ to: "/skills" });
+			navigate({ to: "/app/skills" });
 		},
 		onError: (err) => {
 			const message =

@@ -10,6 +10,16 @@ export interface User {
 }
 
 export interface AuthContext {
-    isAuthenticated: boolean;
-    user: User | undefined;
+	isAuthenticated: boolean;
+	user: User | undefined;
+}
+
+export interface AuthContextType {
+	isAuthenticated: boolean;
+	user: User | undefined;
+	isLoading: boolean;
+	error: unknown;
+	refetch: () => void;
+	logout: () => void;
+	logoutIsPending: boolean;
 }

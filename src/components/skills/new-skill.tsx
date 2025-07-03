@@ -16,7 +16,7 @@ export default function NewSkill({ skill }: NewSkillProps) {
 			<Button
 				className="flex bg-transparent text-black border hover:bg-transparent cursor-pointer"
 				onClick={() => {
-					navigate({ to: "/skills" });
+					navigate({ to: "/app/skills" });
 				}}
 			>
 				<X />

@@ -22,7 +22,7 @@ const useLogin = () => {
 		onSuccess: (data) => {
 			queryClient.invalidateQueries({ queryKey: ["user"] });
 			toast.success(data.message);
-			navigate({ to: "/dashboard" });
+			navigate({ to: "/app/dashboard" });
 		},
 		onError: (err) => {
 			const message =

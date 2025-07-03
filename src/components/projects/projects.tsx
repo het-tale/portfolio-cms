@@ -20,7 +20,7 @@ export default function Projects() {
 		<Button
 			className="flex bg-blue-700 hover:bg-blue-500"
 			onClick={() => {
-				navigate({ to: "/projects/new" });
+				navigate({ to: "/app/projects/new" });
 			}}
 		>
 			<Plus />

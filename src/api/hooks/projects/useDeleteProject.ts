@@ -22,7 +22,7 @@ export default function useDeleteProject() {
 			queryClient.invalidateQueries({ queryKey: ["project"] });
 			const message = data.message || "Project Deleted successfully";
 			toast.success(message);
-			navigate({ to: "/projects" });
+			navigate({ to: "/app/projects" });
 		},
 		onError: (err) => {
 			const message =

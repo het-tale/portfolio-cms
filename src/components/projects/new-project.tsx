@@ -54,7 +54,7 @@ export default function NewProject({ project }: NewProjectProps) {
 			<Button
 				className="flex bg-transparent text-black border hover:bg-transparent cursor-pointer"
 				onClick={() => {
-					navigate({ to: "/projects" });
+					navigate({ to: "/app/projects" });
 				}}
 			>
 				<X />

@@ -3,7 +3,7 @@ import useGetSkillById from "@/api/hooks/skills/useGetSkillById";
 import NewSkill from "./new-skill";
 
 export default function EditSkill() {
-	const { id } = useParams({ from: "/skills/edit/$id" });
+	const { id } = useParams({ from: "/app/skills/edit/$id" });
 
 	console.log("iddd", id);
 	const { data: skill, isLoading } = useGetSkillById(id);
